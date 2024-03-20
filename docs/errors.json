@@ -1,0 +1,215 @@
+[
+  {
+    "name": "SmartAccountInsufficientFundsError",
+    "regex": "aa21",
+    "description": "You are not using a paymaster, and the ${sender} address did not have enough native tokens to cover the gas costs associated with the user operation.",
+    "causes": ["Your smart wallet does not have funds to send transaction."],
+    "solutions": [
+      "If you are not using a paymaster, verify that the sender address has enough native tokens to cover the required prefund.",
+      "Send some native tokens in your smart wallet to be able to resolve the error.",
+      "If you are looking to use a paymaster to cover the gas fees, verify that the paymasterAndData field is set."
+    ]
+  },
+  {
+    "name": "SmartAccountValidationRevertedError",
+    "regex": "aa23",
+    "description": "The smart account ${sender} reverted or ran out of gas during the validation of the user operation.",
+    "causes": ["Your smart account is out of gas."],
+    "solutions": [
+      "Make sure the signature verification logic of the smart account is implemented correctly.",
+      "Ensure you are using the same signer, you created the account with.",
+      "Verify that the verificationGasLimit is high enough to cover the validateUserOp function's gas costs.",
+      "Make sure validateUserOp returns uint(1) for invalid signatures, and MUST NOT REVERT when the signature is invalid",
+      "If you are using paymaster to sponsor the transactions, ensure that the paymasterAndData field of the user operation is correctly set to enable proper handling of gas fees",
+      "Check that you have enough balance at the paymaster.",
+      "If you are not using a paymaster, verify that the sender address has enough native tokens to cover the required pre fund.",
+      "Verify that the validateUserOp function is implemented with the correct logic, and that the user operation is supposed to be valid.",
+      "If the error persists, try simulating validateUserOp method on entrypoint contract with the user operation using tenderly"
+    ]
+  },
+  {
+    "name": "InvalidSmartAccountSignatureError",
+    "regex": "aa24",
+    "description": "The smart account ${sender} signature is invalid.",
+    "causes": [
+      "The signature field of userOp is inaccurate.",
+      "The userOp field is altered after the userOp has been signed."
+    ],
+    "solutions": [
+      "Make sure you have selected the correct chainId and entryPointAddress when computing the userOpHash.",
+      "Make sure you have selected the correct corresponding bundler URL when computing the userOpHash.",
+      "Verify that the user operation was correctly signed, and that the signature was correctly encoded in the signature field of the user operation.",
+      "Most smart account implementations sign over the userOpHash. Make sure that the userOpHash is correctly computed. Consider leveraging functions like getUserOperationHash.",
+      "Make sure the smart account signature verification function is correctly implemented."
+    ]
+  },
+  {
+    "name": "SenderAlreadyDeployedError",
+    "regex": "aa10",
+    "description": "Smart account ${sender} is already deployed.",
+    "causes": [
+      "Your smart wallet is already created but you are still sending initcode in userOp"
+    ],
+    "solutions": [
+      "Remove the initCode from the user operation and set it to \"0x\""
+    ]
+  },
+  {
+    "name": "InitCodeRevertedError",
+    "regex": "aa13",
+    "description": "EntryPoint failed to create the smart account with the initCode provided.",
+    "causes": [
+      "The initCode ran out of gas",
+      "The initCode reverted during the account deployment process",
+      "The userOp doesn't have enough verificationGasLimit to create smart account"
+    ],
+    "solutions": [
+      "Verify that the factory address in the initCode is correct (the factory address is the first 20 bytes of the initCode).",
+      "Verify that the initCode is correct.",
+      "Check whether the verificationGasLimit is sufficient for the initCode to complete without running out of gas.",
+      "Increase verificationGasLimit to be able to send transaction."
+    ]
+  },
+  {
+    "name": "SenderAddressMismatchError",
+    "regex": "aa14",
+    "description": "The initCode returned a different smart account address than expected.",
+    "causes": [
+      "Account deployed with the initCode provided does not match the sender address provided",
+      "The factory contract that you are using to deploy smart account does not return smart account address",
+      "The sender field in userOp does not have the same address as factory contract is creating for you"
+    ],
+    "solutions": [
+      "Verify that the sender address was generated deterministically from the initCode. (consider leveraging functions like getSenderAddress)",
+      "Verify that the factory address in the initCode is correct (the factory address is the first 20 bytes of the initCode)",
+      "Verify that the initCode is correct."
+    ]
+  },
+  {
+    "name": "BundlerOutOfGasError",
+    "regex": "aa95",
+    "description": "The bundler tried to bundle the user operation with the gas limit set too low, or too high.",
+    "causes": [
+      "The callGasLimit or verificationGasLimit is not correct for executing callData sent in userOp.",
+      "The callGasLimit or verificationGasLimit has not been retrieved via the relevant bundler api."
+    ],
+    "solutions": [
+      "Configure the bundler send gas limits properly.",
+      "Make sure callGasLimit and verificationGasLimit are not too high/low and use correct estimated values for preparing the userOp."
+    ]
+  },
+  {
+    "name": "InvalidPaymasterAndDataError",
+    "regex": "aa93",
+    "description": "The paymasterAndData field of the user operation is invalid.",
+    "causes": [
+      "Throws if paymasterAndData created by signing service is not valid."
+    ],
+    "solutions": [
+      "Make sure you have either not set a value for the paymasterAndData, or that it is at least 20 bytes long."
+    ]
+  },
+  {
+    "name": "InvalidBeneficiaryAddressError",
+    "regex": "aa9[01]",
+    "description": "The bundler did not set a beneficiary address when bundling the user operation.",
+    "causes": [
+      "The beneficiary address sent in userOp that is going to get sponsored transaction fee back is not valid."
+    ],
+    "solutions": ["Check that the beneficiary address is valid."]
+  },
+  {
+    "name": "PaymasterDataRejectedError",
+    "regex": "aa34",
+    "description": "The validatePaymasterUserOp function of the paymaster rejected paymasterAndData.",
+    "causes": [
+      "The paymaster's signature is invalid.",
+      "Once the paymasterData is created, any changes to the userOp may lead to this error."
+    ],
+    "solutions": [
+      "Verify that the user operation was correctly signed according to your implementation, and that the paymaster signature was correctly encoded in the paymasterAndData field of the user operation.",
+      "Check the format of the signature in paymasterAndData.",
+      "Make sure you do not modify any of the fields of the user operation after the paymaster signs over it (except the signature field).",
+      "In case you have passed the calculateGasLimits flag as true while creating the paymasterData, do update the gasLimits as mentioned here to avoid this error."
+    ]
+  },
+  {
+    "name": "InvalidSmartAccountNonceError",
+    "regex": "aa25",
+    "description": "The smart account ${sender} nonce is invalid.",
+    "causes": [
+      "Your nonce is invalid.",
+      "The user operation may be re-using an old nonce, or formatted the nonce incorrectly."
+    ],
+    "solutions": [
+      "Verify that you are using the correct nonce for the user operation. The nonce should be the current nonce of the smart account for the selected key. Consider leveraging functions like getAccountNonce.",
+      "Verify that the nonce is formatted correctly.",
+      "If you are trying parallel transactions execution, refer to nonceOptions here: (https://docs.biconomy.io/Account/methods#builduserop) for more details"
+    ]
+  },
+  {
+    "name": "PaymasterDepositTooLowError",
+    "regex": "aa31",
+    "description": "Paymaster contract does not have enough funds deposited into the EntryPoint contract to cover the required funds for the user operation.",
+    "causes": [
+      "The Paymaster you have created using the dashboard does not have enough funds in its gas tank to sponsor the transaction."
+    ],
+    "solutions": [
+      "Deposit more funds into the Paymaster via the dashboard.",
+      "Verify that the paymasterAndData field is correct, and that the first 20 bytes are the address of the paymaster contract you intend to use.",
+      "Reach out to us."
+    ]
+  },
+  {
+    "name": "VerificationGasTooLowError",
+    "regex": "aa41",
+    "description": "The amount of gas used by the smart account verification exceeded the verificationGasLimit set for the user operation.",
+    "causes": [
+      "The userOp does not have enough verificationGasLimit to create smart account"
+    ],
+    "solutions": [
+      "Increase verificationGasLimit.",
+      "Verify that the verificationGasLimit set for the user operation is high enough to cover the gas used during smart account's validateUserOp function.",
+      "Investigate why the smart account's validateUserOp function used more gas than expected using tools like Tenderly."
+    ]
+  },
+  {
+    "name": "PaymasterValidationRevertedError",
+    "regex": "aa33",
+    "description": "The validatePaymasterUserOp function of the paymaster either reverted or ran out of gas.",
+    "causes": [
+      "the transaction you are sending is not valid or userOp does not have enough verificationGasLimit to be able to validate transaction.",
+      "The userOp does not have enough verificationGasLimit to create a smart account"
+    ],
+    "solutions": [
+      "Verify that the verificationGasLimit is high enough to cover the validatePaymasterUserOp function's gas costs.",
+      "Verify the userOp you are building is valid.",
+      "If you are not looking to use a paymaster to cover the gas fees, verify that the paymasterAndData field is not set."
+    ]
+  },
+  {
+    "name": "VerificationGasTooHighError",
+    "regex": "aa40",
+    "description": "The amount of gas used by the smart account verification did not adequately cover the verificationGasLimit set for the user operation.",
+    "causes": [
+      "The verification step on chain, is more than the verificationGasLimit."
+    ],
+    "solutions": [
+      "Increase the verificationGasLimit.",
+      "Investigate why the smart account's validateUserOp function used more gas than expected using tools like Tenderly."
+    ]
+  },
+  {
+    "name": "ActualGasCostTooHighError",
+    "regex": "aa51",
+    "description": "The actual gas cost of the user operation ended up being higher than the funds paid by the smart account or the paymaster.",
+    "causes": [
+      "Your smart wallet does not have funds to send transaction.",
+      "The Paymaster you have created using dashboard does not have enough funds in its gas tank to sponsor transaction."
+    ],
+    "solutions": [
+      "Top up your smart account with native token using the counterfactual address as the recipient.",
+      "Top up your paymaster with native token."
+    ]
+  }
+]
