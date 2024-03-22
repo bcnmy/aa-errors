@@ -12,7 +12,7 @@ Your contributions are vital to keeping this repository valuable and up-to-date.
 
 ### How to Contribute
 
-1. **Submit a Pull Request (PR)**: Submit a PR to the main repository for review. Or...
+1. **Submit a Pull Request (PR)**: Submit a PR into the main branch for review. Or...
 2. **Edit the JSON directly** [here](https://github.com/bcnmy/aa-errors/edit/main/docs/errors.json) (be careful!).
 
 **NB: The 'regex' field is used to match a thrown error from the SDK to your KnownError, so please make sure it is a string unique to your error**
