@@ -2,7 +2,7 @@
   {
     "name": "SmartAccountInsufficientFundsError",
     "regex": "aa21",
-    "description": "You are not using a paymaster, and the ${sender} address did not have enough native tokens to cover the gas costs associated with the user operation.",
+    "description": "You are not using a paymaster, and the sender address did not have enough native tokens to cover the gas costs associated with the user operation.",
     "causes": ["Your smart wallet does not have funds to send transaction."],
     "solutions": [
       "If you are not using a paymaster, verify that the sender address has enough native tokens to cover the required prefund.",
@@ -13,7 +13,7 @@
   {
     "name": "SmartAccountValidationRevertedError",
     "regex": "aa23",
-    "description": "The smart account ${sender} reverted or ran out of gas during the validation of the user operation.",
+    "description": "The smart account sender reverted or ran out of gas during the validation of the user operation.",
     "causes": ["Your smart account is out of gas."],
     "solutions": [
       "Make sure the signature verification logic of the smart account is implemented correctly.",
@@ -30,7 +30,7 @@
   {
     "name": "InvalidSmartAccountSignatureError",
     "regex": "aa24",
-    "description": "The smart account ${sender} signature is invalid.",
+    "description": "The smart account sender signature is invalid.",
     "causes": [
       "The signature field of userOp is inaccurate.",
       "The userOp field is altered after the userOp has been signed."
@@ -46,7 +46,7 @@
   {
     "name": "SenderAlreadyDeployedError",
     "regex": "aa10",
-    "description": "Smart account ${sender} is already deployed.",
+    "description": "Smart account sender is already deployed.",
     "causes": [
       "Your smart wallet is already created but you are still sending initcode in userOp"
     ],
@@ -136,7 +136,7 @@
   {
     "name": "InvalidSmartAccountNonceError",
     "regex": "aa25",
-    "description": "The smart account ${sender} nonce is invalid.",
+    "description": "The smart account sender nonce is invalid.",
     "causes": [
       "Your nonce is invalid.",
       "The user operation may be re-using an old nonce, or formatted the nonce incorrectly."
