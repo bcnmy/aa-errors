@@ -111,7 +111,7 @@
   },
   {
     "name": "InvalidBeneficiaryAddressError",
-    "regex": "aa9[01]",
+    "regex": "aa90",
     "description": "The bundler did not set a beneficiary address when bundling the user operation.",
     "causes": [
       "The beneficiary address sent in userOp that is going to get sponsored transaction fee back is not valid."
