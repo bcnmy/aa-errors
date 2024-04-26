@@ -7,7 +7,7 @@
     "solutions": [
       "If you are not using a paymaster, verify that the sender address has enough native tokens to cover the required prefund.",
       "Send some native tokens in your smart wallet to be able to resolve the error.",
-      "If you are looking to use a paymaster to cover the gas fees, verify that the paymasterAndData field is set."
+      "If you are looking to use a paymaster to cover the gas fees, verify that the paymasterAndData field is set when you send the transaction."
     ]
   },
   {
