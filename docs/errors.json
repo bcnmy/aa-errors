@@ -1,5 +1,12 @@
 [
   {
+    "name": "SessionRuleViolationError",
+    "regex": "ABISV Arg Rule Violated",
+    "description": "One of the rules you have applied to your session has caused your transaction to revert",
+    "causes": ["The ABI Session Validation rules you have applied prevent your tx from executing"],
+    "solutions": ["Check documentation here: https://bcnmy.github.io/biconomy-client-sdk/interfaces/Rule.html for detail for how to correctly apply your session permissions"]
+  },
+  {
     "name": "SmartAccountInsufficientFundsError",
     "regex": "aa21",
     "description": "You are not using a paymaster, and the sender address did not have enough native tokens to cover the gas costs associated with the user operation.",
