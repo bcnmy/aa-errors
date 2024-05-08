@@ -1,7 +1,7 @@
 [
   {
     "name": "SessionRuleViolationError",
-    "regex": "ABISV Arg Rule Violated",
+    "regex": "abisv arg rule violated",
     "description": "One of the rules you have applied to your session has caused your transaction to revert",
     "causes": ["The ABI Session Validation rules you have applied prevent your tx from executing"],
     "solutions": ["Check documentation here: https://bcnmy.github.io/biconomy-client-sdk/interfaces/Rule.html for detail for how to correctly apply your session permissions"]
