@@ -1,6 +1,6 @@
 [
   {
-    "name": "SessionNotApprovedViolationError",
+    "name": "SessionNotApprovedError",
     "regex": "sessionnotapproved",
     "description": "The session you are using has not been permitted by the user, or is no longer valid",
     "causes": ["You are using an invalid session"],
