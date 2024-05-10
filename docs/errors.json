@@ -1,14 +1,14 @@
 [
   {
     "name": "SessionNotApprovedError",
-    "regex": "sessionnotapproved",
+    "regex": "SessionNotApproved",
     "description": "The session you are using has not been permitted by the user, or is no longer valid",
     "causes": ["You are using an invalid session"],
     "solutions": ["Request and use a different session from the user instead"]
   },
   {
     "name": "SessionRuleViolationError",
-    "regex": "abisv arg rule violated",
+    "regex": "ABISV Arg Rule Violated",
     "description": "One of the rules you have applied to your session has caused your transaction to revert",
     "causes": ["The ABI Session Validation rules you have applied prevent your tx from executing"],
     "solutions": ["Check documentation here: https://bcnmy.github.io/biconomy-client-sdk/interfaces/Rule.html for detail for how to correctly apply your session permissions", "Request updated permissions from the smartAccount to which the policy has been granted."]
