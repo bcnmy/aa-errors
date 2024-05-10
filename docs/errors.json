@@ -192,10 +192,12 @@
     "regex": "aa33",
     "description": "The validatePaymasterUserOp function of the paymaster either reverted or ran out of gas.",
     "causes": [
+      "Your paymaster ran out of funds",
       "the transaction you are sending is not valid or userOp does not have enough verificationGasLimit to be able to validate transaction.",
       "The userOp does not have enough verificationGasLimit to create a smart account"
     ],
     "solutions": [
+      "Top up your paymaster via the dashboard",
       "Verify that the verificationGasLimit is high enough to cover the validatePaymasterUserOp function's gas costs.",
       "Verify the userOp you are building is valid.",
       "If you are not looking to use a paymaster to cover the gas fees, verify that the paymasterAndData field is not set."
