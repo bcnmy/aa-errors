@@ -1,5 +1,12 @@
 [
   {
+    "name": "SessionNotApprovedViolationError",
+    "regex": "sessionnotapproved",
+    "description": "The session you are using has not been permitted by the user, or is no longer valid",
+    "causes": ["You are using an invalid session"],
+    "solutions": ["Request and use a different session from the user instead"]
+  },
+  {
     "name": "SessionRuleViolationError",
     "regex": "abisv arg rule violated",
     "description": "One of the rules you have applied to your session has caused your transaction to revert",
