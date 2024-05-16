@@ -153,12 +153,19 @@
     "description": "The smart account sender nonce is invalid.",
     "causes": [
       "Your nonce is invalid.",
-      "The user operation may be re-using an old nonce, or formatted the nonce incorrectly."
+      "The user operation may be re-using an old nonce, or formatted the nonce incorrectly.",
+      "the userOp is not 1 more than the nonce in the nonceSequenceNumber map on the EntryPoint",
+      "You have sent two userOps with same nonce with very little time difference, both pass simulation as both are at the time of simulation are valid. Whichever userOp lands on chain first will make the second userOp's nonce invalid",
+      "You have not waited for a previous userOp to be confirmed",
+      "the RPC passed into the SDK is using a free tier, which won't have the same performance and slow state data propagation as a paid RPC.",
+      "You have sent a userOp to an incorrect chain"
     ],
     "solutions": [
-      "Verify that you are using the correct nonce for the user operation. The nonce should be the current nonce of the smart account for the selected key. Consider leveraging functions like getAccountNonce.",
-      "Verify that the nonce is formatted correctly.",
-      "If you are trying parallel transactions execution, refer to nonceOptions here: (https://docs.biconomy.io/Account/methods#builduserop) for more details"
+      "Verify that you are using the correct nonce for the user operation. The nonce should be the current nonce of the smart account for the selected key. Consider using functions like getAccountNonce",
+      "Wait for transaction confirmation before firing a second tx",
+      "If you are trying parallel transactions execution, refer to 2d nonces (nonceOptions) here: (https://docs.biconomy.io/Account/methods#builduserop) for more details",
+      "Pay for a tierd RPC provider.",
+      "Verify that the nonce is formatted correctly."
     ]
   },
   {
