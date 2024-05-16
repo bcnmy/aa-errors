@@ -1,5 +1,12 @@
 [
   {
+    "name": "SessionFunctionSelectorNotApprovedError",
+    "regex": "ABISV Selector Forbidden",
+    "description": "The session you are using has not whitelisted a matching function selector to one in your tx",
+    "causes": ["You are using an invalid or incorrect session", "You have misspelled the functionSelector that your user has whitelisted", "You have misspelled the functionSelector in your tx"],
+    "solutions": ["Request and use a different session from the user"]
+  },
+  {
     "name": "SessionNotApprovedError",
     "regex": "SessionNotApproved",
     "description": "The session you are using has not been permitted by the user, or is no longer valid",
