@@ -3,8 +3,8 @@
     "name": "SessionFunctionSelectorNotApprovedError",
     "regex": "ABISV Selector Forbidden",
     "description": "The session you are using has not whitelisted a matching function selector to one in your tx",
-    "causes": ["You are using an invalid or incorrect session", "You have misspelled the functionSelector that your user has whitelisted", "You have misspelled the functionSelector in your tx"],
-    "solutions": ["Request and use a different session from the user"]
+    "causes": ["You have incorrectly retrieved the merkletree leaf from your sessionStorageClient", "You are using an invalid or incorrect session", "You have misspelled the functionSelector that your user has whitelisted", "You have misspelled the functionSelector in your tx"],
+    "solutions": ["Pass the correct sessionID into the params as the userOp gets built", "Request and use a different session from the user"]
   },
   {
     "name": "SessionNotApprovedError",
