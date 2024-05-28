@@ -3,8 +3,8 @@
     "name": "SessionDestinationNotApprovedError",
     "regex": "ABISV Destination Forbidden",
     "description": "One of the criteria in the transaction you are executing is forbidden by the policy rules signed by the grantor",
-    "causes": ["You have incorrectly reconstructed the tx for the relevant policy leaf", "You have incorrectly requested the relevant policy leaf from the grantor, for the tx you are trying to execute on his behalf"],
-    "solutions": ["Check that the params used in the tx matches exactly the criteria specified during the creation of the session"]
+    "causes": ["You are using an incorrect sessionID", "You have incorrectly reconstructed the tx for the relevant policy leaf", "You have incorrectly requested the relevant policy leaf from the grantor, for the tx you are trying to execute on his behalf"],
+    "solutions": ["Try passing the full Session (storageClient + sessionIdInfo) when you create the sessionSmartAccountClient", "Check that the params used in the tx matches exactly the criteria specified during the creation of the session"]
   },
   {
     "name": "SessionFunctionSelectorNotApprovedError",
