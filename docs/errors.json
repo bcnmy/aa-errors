@@ -4,7 +4,7 @@
     "regex": "Lengths mismatch",
     "description": "The length of the batchSessionParams you have passed while sending the tx does not match the length of the session leaves",
     "causes": ["You cannot partially use a batch session tx", "You must use every leaf of a batchSession session while submitting the tx"],
-    "solutions": ["If you are using the getBatchSessionTxParams helper ensure you pass in the same number of indexes as there are txs", "Double check the second arg passed into getBatchSessionTxParams(...)", "Use a single session with multiple policy leaves instead of a batch session if you wish to use one leaf at a time."]
+    "solutions": ["If you are using the getBatchSessionTxParams helper ensure you pass in the same number of indexes as there are txs", "Double check the second arg passed into getBatchSessionTxParams(...)", "Use a single session with multiple policy leaves instead of a batch session if you wish to use one leaf at a time.", "If you are manually handling approvals in the batch session router Use the `skipPatchCallData` flag while building the userOp"]
   },
   {
     "name": "SessionDestinationNotApprovedError",
