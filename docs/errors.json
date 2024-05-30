@@ -24,8 +24,8 @@
     "name": "SessionNotApprovedError",
     "regex": "SessionNotApproved",
     "description": "The session you are using has not been permitted by the user, or is no longer valid",
-    "causes": ["You are using an invalid session"],
-    "solutions": ["Request and use a different session from the user instead"]
+    "causes": ["You are using an invalid session", "You have picked out an incorrect sessionID from the storage client", "You have recently added more sessions to the batch session module and the relevant session you require is no longer automatically found at the last index."],
+    "solutions": ["Request and use a different session from the user instead", "Ensure you have chose the correct sessionID(s) from the storage client"]
   },
   {
     "name": "SessionRuleViolationError",
