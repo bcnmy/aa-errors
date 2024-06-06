@@ -239,7 +239,8 @@
       "The verification step on chain, is more than the verificationGasLimit."
     ],
     "solutions": [
-      "Increase the verificationGasLimit.",
+      "Increase the verificationGasLimit",
+      "While sending a transaction with the SDK avail of the `gasOffset['verificationGasLimit']` option, which allows you to increase the verificationGasLimit by an percentage (expressed as a integer).",
       "Investigate why the smart account's validateUserOp function used more gas than expected using tools like Tenderly."
     ]
   },
