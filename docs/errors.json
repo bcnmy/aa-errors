@@ -1,5 +1,12 @@
 [
   {
+    "name": "InsufficientTokenBalanceError",
+    "regex": "account does not have enough token balance",
+    "description": "The Smart Account does not have sufficient balance of the token with which you are attempting to pay gas with",
+    "causes": ["Your smart account ran out of the relevant erc20 token"],
+    "solutions": ["Send the relevant erc20 token to your smart account", "Choose a different token to pay with"]
+  },
+  {
     "name": "BatchSessionParamsNotValidError",
     "regex": "Lengths mismatch",
     "description": "The length of the batchSessionParams you have passed while sending the tx does not match the length of the session leaves",
