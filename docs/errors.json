@@ -1,5 +1,12 @@
 [
   {
+    "name": "BatchedSessionPartialUsageError",
+    "regex": "SR Invalid Selector",
+    "description": "Partial use of the BatchedSession router was attempted",
+    "causes": ["You cannot partially use the BatchedSession policy leaves"],
+    "solutions": ["Every policy leaf in the session must be used when submitting the txs", "Resubmit the txs with a corresponding tx for each leaf in the policy", "Use the simple Session instead of the Batched Session if you want to use single leaves. The simple Session can have multiple leaves in the Policy and any one of them can be used on their own." ]
+  },
+  {
     "name": "InsufficientTokenBalanceError",
     "regex": "account does not have enough token balance",
     "description": "The Smart Account does not have sufficient balance of the token with which you are attempting to pay gas with",
