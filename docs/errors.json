@@ -93,58 +93,121 @@
     ]
   },
   {
-    "name": "SenderAlreadyDeployedError",
-    "regex": "aa10",
-    "description": "Smart account sender is already deployed.",
+    "name": "SenderAlreadyConstructedError",
+    "regex": "AA10",
+    "description": "The sender (smart account) is already constructed.",
     "causes": [
-      "Your smart wallet is already created but you are still sending initcode in userOp"
+      "You're trying to deploy a Biconomy smart account that has already been deployed"
     ],
     "solutions": [
-      "Remove the initCode from the user operation and set it to \"0x\""
+      "Remove the initCode from the user operation and set it to \"0x\"",
+      "Check if the Biconomy smart account is already deployed before attempting to deploy it again"
     ]
   },
   {
-    "name": "InitCodeRevertedError",
-    "regex": "aa13",
-    "description": "EntryPoint failed to create the smart account with the initCode provided.",
+    "name": "AccountNotDeployedError",
+    "regex": "AA20",
+    "description": "The account (sender) is not deployed.",
     "causes": [
-      "The initCode ran out of gas",
-      "The initCode reverted during the account deployment process",
-      "The userOp doesn't have enough verificationGasLimit to create smart account"
+      "You're trying to use a Biconomy smart account that hasn't been deployed yet"
     ],
     "solutions": [
-      "Verify that the factory address in the initCode is correct (the factory address is the first 20 bytes of the initCode).",
-      "Verify that the initCode is correct.",
-      "Check whether the verificationGasLimit is sufficient for the initCode to complete without running out of gas.",
-      "Increase verificationGasLimit to be able to send transaction."
+      "Deploy the Biconomy smart account first by including the initCode in the user operation",
+      "Verify that the Biconomy smart account address is correct and has been properly deployed"
     ]
   },
   {
-    "name": "SenderAddressMismatchError",
-    "regex": "aa14",
-    "description": "The initCode returned a different smart account address than expected.",
+    "name": "PaymasterNotDeployedError",
+    "regex": "AA30",
+    "description": "The paymaster contract is not deployed.",
     "causes": [
-      "Account deployed with the initCode provided does not match the sender address provided",
-      "The factory contract that you are using to deploy smart account does not return smart account address",
-      "The sender field in userOp does not have the same address as factory contract is creating for you"
+      "The Biconomy paymaster address specified in the user operation doesn't exist on-chain"
     ],
     "solutions": [
-      "Verify that the sender address was generated deterministically from the initCode. (consider leveraging functions like getSenderAddress)",
-      "Verify that the factory address in the initCode is correct (the factory address is the first 20 bytes of the initCode)",
-      "Verify that the initCode is correct."
+      "Verify that the Biconomy paymaster address in the paymasterAndData field is correct",
+      "Ensure that the Biconomy paymaster contract has been deployed to the correct network"
     ]
   },
   {
-    "name": "BundlerOutOfGasError",
-    "regex": "aa95",
-    "description": "The bundler tried to bundle the user operation with the gas limit set too low, or too high.",
+    "name": "PostOpRevertedError",
+    "regex": "AA50",
+    "description": "The postOp call reverted.",
     "causes": [
-      "The callGasLimit or verificationGasLimit is not correct for executing callData sent in userOp.",
-      "The callGasLimit or verificationGasLimit has not been retrieved via the relevant bundler api."
+      "The postOp function in the Biconomy paymaster contract encountered an error"
     ],
     "solutions": [
-      "Configure the bundler send gas limits properly.",
-      "Make sure callGasLimit and verificationGasLimit are not too high/low and use correct estimated values for preparing the userOp."
+      "Check the implementation of the postOp function in your Biconomy paymaster contract",
+      "Ensure that the postOp function can handle all possible scenarios after the user operation execution"
+    ]
+  },
+  {
+    "name": "TransactionRejectedError",
+    "regex": "-32500",
+    "description": "Transaction rejected by entryPoint's simulateValidation, during account creation or validation.",
+    "causes": [
+      "The UserOperation failed validation in the EntryPoint contract",
+      "Issues during Biconomy smart account creation or validation process"
+    ],
+    "solutions": [
+      "Check the UserOperation parameters for correctness",
+      "Ensure the Biconomy smart account creation process is properly configured",
+      "Review the validation logic in your Biconomy smart account contract"
+    ]
+  },
+  {
+    "name": "RejectedByPaymasterError",
+    "regex": "-32501",
+    "description": "Transaction rejected by paymaster's validatePaymasterUserOp.",
+    "causes": [
+      "The Biconomy paymaster contract rejected the UserOperation during validation",
+      "Insufficient funds or invalid paymaster data"
+    ],
+    "solutions": [
+      "Verify the Biconomy paymaster contract has sufficient funds",
+      "Check the paymasterAndData field in the UserOperation",
+      "Review the validation logic in your Biconomy paymaster contract"
+    ]
+  },
+  {
+    "name": "OpcodeViolationError",
+    "regex": "-32502",
+    "description": "Transaction rejected because of opcode validation.",
+    "causes": [
+      "The UserOperation contains forbidden opcodes",
+      "Violation of ERC-4337 security rules in Biconomy implementation"
+    ],
+    "solutions": [
+      "Review the calldata in your UserOperation",
+      "Ensure your Biconomy smart account and paymaster contracts comply with ERC-4337 rules",
+      "Check for any complex or gas-intensive operations that might be flagged"
+    ]
+  },
+  {
+    "name": "UserOperationOutOfTimeRangeError",
+    "regex": "-32503",
+    "description": "UserOperation out of time-range: either account or paymaster returned a time-range, and it is already expired (or will expire soon).",
+    "causes": [
+      "The UserOperation's validity timeframe has expired",
+      "Clock skew between client and Biconomy bundler"
+    ],
+    "solutions": [
+      "Adjust the time range in your UserOperation",
+      "Ensure your client's clock is synchronized",
+      "Resubmit the UserOperation with an updated timeframe"
+    ]
+  },
+  {
+    "name": "ThrottledOrBannedError",
+    "regex": "-32504",
+    "description": "Transaction rejected because paymaster (or signature aggregator) is throttled/banned.",
+    "causes": [
+      "The Biconomy paymaster or signature aggregator has exceeded usage limits",
+      "The entity has been temporarily or permanently banned"
+    ],
+    "solutions": [
+      "Wait and retry the operation later",
+      "Check the status of your Biconomy paymaster or signature aggregator",
+      "Consider using an alternative Biconomy paymaster if the issue persists"
     ]
   },
   {
@@ -270,6 +333,108 @@
     "solutions": [
       "Top up your smart account with native token using the counterfactual address as the recipient.",
       "Top up your paymaster with native token."
+    ]
+  },
+  {
+    "name": "InitCodeFailedOrOOGError",
+    "regex": "AA13",
+    "description": "The initCode execution failed or ran out of gas.",
+    "causes": [
+      "The initCode provided in the UserOperation for the Biconomy smart account is invalid",
+      "The initCode consumes too much gas during execution"
+    ],
+    "solutions": [
+      "Ensure the initCode for the Biconomy smart account is correct",
+      "Optimize the initCode to consume less gas",
+      "Consider increasing the verificationGasLimit in the UserOperation"
+    ]
+  },
+  {
+    "name": "InitCodeMustReturnSenderError",
+    "regex": "AA14",
+    "description": "The initCode execution didn't return the sender address.",
+    "causes": [
+      "The initCode implementation for the Biconomy smart account is incorrect"
+    ],
+    "solutions": [
+      "Modify the initCode to properly return the sender address of the Biconomy smart account",
+      "Verify that the factory contract used in the initCode is correctly implemented"
+    ]
+  },
+  {
+    "name": "InitCodeMustCreateSenderError",
+    "regex": "AA15",
+    "description": "The initCode execution didn't deploy the sender contract.",
+    "causes": [
+      "The initCode implementation for the Biconomy smart account is incorrect"
+    ],
+    "solutions": [
+      "Modify the initCode to properly deploy the Biconomy smart account contract",
+      "Ensure the factory contract used in the initCode is correctly deploying the account"
+    ]
+  },
+  {
+    "name": "DidntPayPrefundError",
+    "regex": "AA21",
+    "description": "The account didn't pay the required prefund.",
+    "causes": [
+      "Insufficient balance in the Biconomy smart account",
+      "Incorrect gas calculations for the UserOperation"
+    ],
+    "solutions": [
+      "Ensure the Biconomy smart account has sufficient balance to cover the required prefund",
+      "Verify and adjust the gas calculations for the UserOperation"
+    ]
+  },
+  {
+    "name": "ExpiredOrNotDueError",
+    "regex": "AA22",
+    "description": "The UserOperation is expired or not yet valid.",
+    "causes": [
+      "Incorrect timeframe set in the UserOperation for the Biconomy smart account"
+    ],
+    "solutions": [
+      "Adjust the validAfter and validUntil parameters in the UserOperation",
+      "Ensure the client's clock is synchronized with the network time"
+    ]
+  },
+  {
+    "name": "RevertedOrOOGError",
+    "regex": "AA23",
+    "description": "The operation was reverted or ran out of gas.",
+    "causes": [
+      "Incorrect implementation of the Biconomy smart account or paymaster contract",
+      "Insufficient gas provided for the operation"
+    ],
+    "solutions": [
+      "Debug the Biconomy smart account and paymaster contract code",
+      "Ensure sufficient gas is provided for the operation",
+      "Optimize the contract code to reduce gas consumption"
+    ]
+  },
+  {
+    "name": "SignatureError",
+    "regex": "AA24",
+    "description": "The signature validation failed.",
+    "causes": [
+      "Incorrect signature provided for the Biconomy smart account",
+      "Invalid validation logic in the Biconomy smart account contract"
+    ],
+    "solutions": [
+      "Ensure the signature is correctly generated for the UserOperation",
+      "Verify that the signature validation logic in the Biconomy smart account contract is properly implemented"
+    ]
+  },
+  {
+    "name": "InvalidAccountNonceError",
+    "regex": "AA25",
+    "description": "The nonce provided in the UserOperation is invalid.",
+    "causes": [
+      "Incorrect nonce tracking or management in the Biconomy smart account"
+    ],
+    "solutions": [
+      "Ensure proper nonce management in the Biconomy smart account implementation",
+      "Verify that the nonce is correctly incremented after each operation"
     ]
   }
 ]
